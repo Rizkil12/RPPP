@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>RPPGenius Pro - Rich Editor Semua Kolom | Copy Paste Tabel Rapi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-chalkboard-user"></i></div>
+                <div>
+                    <h1>RPPGenius Pro</h1>
+                    <p>Rich Editor Semua Kolom | Copy Paste Tabel Rapi seperti Word</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn-icon" id="themeToggle" title="Mode Gelap/Terang"><i class="fas fa-moon"></i></button>
+                <button class="btn-icon" id="clearAllBtn" title="Kosongkan Semua"><i class="fas fa-trash-alt"></i></button>
+                <button class="btn-primary-small" id="exportWordBtn"><i class="fas fa-download"></i> Download Word</button>
+                <button class="btn-outline-small" id="copyRPPBtn"><i class="fas fa-copy"></i> Copy RPP</button>
+                <button class="btn-outline-small" id="printBtn"><i class="fas fa-print"></i> Print</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-layout">
+        <!-- Panel Kiri -->
+        <div class="panel-left">
+            <div class="card template-card">
+                <div class="card-header"><i class="fas fa-magic"></i><span>⚡ Pilih Template (Isi Otomatis)</span></div>
+                <div class="card-body">
+                    <select id="templateSelect" class="template-select">
+                        <option value="matematika">📐 Matematika</option>
+                        <option value="ipa">🔬 IPA</option>
+                        <option value="bahasaindonesia">📖 Bahasa Indonesia</option>
+                        <option value="bahasainggris">🇬🇧 Bahasa Inggris</option>
+                        <option value="ips">🌏 IPS</option>
+                        <option value="ppkn">⚖️ PPKn</option>
+                        <option value="senibudaya">🎨 Seni Budaya</option>
+                        <option value="pjok">⚽ PJOK</option>
+                        <option value="prakarya">✂️ Prakarya</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Identitas (Text Input Biasa) -->
+            <div class="card">
+                <div class="card-header"><i class="fas fa-school"></i><span>📋 IDENTITAS PEMBELAJARAN</span></div>
+                <div class="card-body">
+                    <div class="form-row-2">
+                        <div class="form-group"><label>Satuan Pendidikan</label><input type="text" id="sekolah" class="form-control" value="SMP Negeri 1 Contoh"></div>
+                        <div class="form-group"><label>Mata Pelajaran</label><input type="text" id="mapel" class="form-control" value="Matematika"></div>
+                    </div>
+                    <div class="form-row-2">
+                        <div class="form-group"><label>Materi Pokok</label><input type="text" id="materi" class="form-control" value="Persamaan Linear Satu Variabel"></div>
+                        <div class="form-group"><label>Kelas / Fase</label><input type="text" id="kelas" class="form-control" value="VII / D"></div>
+                    </div>
+                    <div class="form-row-3">
+                        <div class="form-group"><label>Semester</label><select id="semester" class="form-control"><option>Ganjil</option><option>Genap</option></select></div>
+                        <div class="form-group"><label>Tahun Pelajaran</label><input type="text" id="tahun" class="form-control" value="2025/2026"></div>
+                        <div class="form-group"><label>Alokasi Waktu</label><input type="text" id="alokasi" class="form-control" value="2 x 40 menit"></div>
+                    </div>
+                    <div class="form-group"><label>Nama Guru</label><input type="text" id="guru" class="form-control" value="Andi Saputra, S.Pd."></div>
+                </div>
+            </div>
+
+            <!-- CAPAIAN PEMBELAJARAN - RICH EDITOR -->
+            <div class="card">
+                <div class="card-header"><i class="fas fa-bullseye"></i><span>🎯 CAPAIAN PEMBELAJARAN (CP)</span></div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label><i class="fas fa-flag-checkered"></i> Capaian Pembelajaran</label>
+                        <div class="rich-editor-toolbar">
+                            <button type="button" onclick="formatEditor('cpEditor','bold')"><b>B</b></button>
+                            <button type="button" onclick="formatEditor('cpEditor','italic')"><i>I</i></button>
+                            <button type="button" onclick="formatEditor('cpEditor','underline')"><u>U</u></button>
+                            <button type="button" onclick="formatEditor('cpEditor','insertUnorderedList')"><i class="fas fa-list-ul"></i></button>
+                            <button type="button" onclick="formatEditor('cpEditor','insertOrderedList')"><i class="fas fa-list-ol"></i></button>
+                            <button type="button" onclick="formatEditor('cpEditor','inserttable')"><i class="fas fa-table"></i> Tabel</button>
+                        </div>
+                        <div id="cpEditor" class="rich-editor" contenteditable="true"></div>
+                        <textarea id="cp" style="display:none;"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TUJUAN PEMBELAJARAN - RICH EDITOR -->
+            <div class="card">
+                <div class="card-header"><i class="fas fa-target"></i><span>🎯 TUJUAN PEMBELAJARAN</span></div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label><i class="fas fa-bullseye"></i> Tujuan Pembelajaran</label>
+                        <div class="rich-editor-toolbar">
+                            <button type="button" onclick="formatEditor('tujuanEditor','bold')"><b>B</b></button>
+                            <button type="button" onclick="formatEditor('tujuanEditor','italic')"><i>I</i></button>
+                            <button type="button" onclick="formatEditor('tujuanEditor','underline')"><u>U</u></button>
+                            <button type="button" onclick="formatEditor('tujuanEditor','insertUnorderedList')"><i class="fas fa-list-ul"></i></button>
+                            <button type="button" onclick="formatEditor('tujuanEditor','insertOrderedList')"><i class="fas fa-list-ol"></i></button>
+                        </div>
+                        <div id="tujuanEditor" class="rich-editor" contenteditable="true"></div>
+                        <textarea id="tujuan" style="display:none;"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KOMPETENSI AWAL - RICH EDITOR -->
+            <div class="card">
+                <div class="card-header"><i class="fas fa-brain"></i><span>🧠 KOMPETENSI AWAL</span></div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <div class="rich-editor-toolbar">
+                            <button type="button" onclick="formatEditor('kompetensiAwalEditor','bold')"><b>B</b></button>
+                            <button type="button" onclick="formatEditor('kompetensiAwalEditor','italic')"><i>I</i></button>
+                            <button type="button" onclick="formatEditor('kompetensiAwalEditor','underline')"><u>U</u></button>
+                        </div>
+                        <div id="kompetensiAwalEditor" class="rich-editor" contenteditable="true"></div>
+                        <textarea id="kompetensiAwal" style="display:none;"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROFIL PANCASILA - RICH EDITOR -->
+            <div class="card">
+                <div class="card-header"><i class="fas fa-hand-sparkles"></i><span>🌟 PROFIL PELAJAR PANCASILA</span></div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <div class="rich-editor-toolbar">
+                            <button type="button" onclick="formatEditor('profilEditor','bold')"><b>B</b></button>
+                            <button type="button" onclick="formatEditor('profilEditor','italic')"><i>I</i></button>
+                            <button type="button" onclick="formatEditor('profilEditor','underline')"><u>U</u></button>
+                            <button type="button" onclick="formatEditor('profilEditor','insertUnorderedList')"><i class="fas fa-list-ul"></i></button>
+                            <button type="button" onclick="formatEditor('profilEditor','insertOrderedList')"><i class="fas fa-list-ol"></i></button>
+                        </div>
+                        <div id="profilEditor" class="rich-editor" contenteditable="true"></div>
+                        <textarea id="profil" style="display:none;"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODEL & METODE -->
+            <div class="card">
+                <div class="card-header"><i class="fas fa-chalkboard"></i><span>📖 MODEL & METODE PEMBELAJARAN</span></div>
+                <div class="card-body">
+                    <div class="form-row-2">
+                        <div class="form-group"><label>Model Pembelajaran</label><input type="text" id="model" class="form-control" value="Problem Based Learning (PBL)"></div>
+                        <div class="form-group"><label>Pendekatan</label><input type="text" id="pendekatan" class="form-control" value="Saintifik"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Metode & Sarana</label>
+                        <div class="rich-editor-toolbar">
+                            <button type="button" onclick="formatEditor('metodeEditor','bold')"><b>B</b></button>
+                            <button type="button" onclick="formatEditor('metodeEditor','italic')"><i>I</i></button>
+                            <button type="button" onclick="formatEditor('metodeEditor','underline')"><u>U</u></button>
+                        </div>
+                        <div id="metodeEditor" class="rich-editor" contenteditable="true"></div>
+                        <textarea id="metode" style="display:none;"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MATERI KONSEPTUAL - RICH EDITOR (UTAMA UNTUK TABEL) -->
+            <div class="card">
+                <div class="card-header"><i class="fas fa-table"></i><span>📊 MATERI KONSEPTUAL (Copy Paste Tabel di sini!)</span></div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <div class="rich-editor-toolbar">
+                            <button type="button" onclick="formatEditor('materiKonsepEditor','bold')"><b>B</b></button>
+                            <button type="button" onclick="formatEditor('materiKonsepEditor','italic')"><i>I</i></button>
+                            <button type="button" onclick="formatEditor('materiKonsepEditor','underline')"><u>U</u></button>
+                            <button type="button" onclick="formatEditor('materiKonsepEditor','insertUnorderedList')"><i class="fas fa-list-ul"></i></button>
+                            <button type="button" onclick="formatEditor('materiKonsepEditor','insertOrderedList')"><i class="fas fa-list-ol"></i></button>
+                            <button type="button" onclick="formatEditor('materiKonsepEditor','inserttable')"><i class="fas fa-table"></i> Tabel</button>
+                        </div>
+                        <div id="materiKonsepEditor" class="rich-editor" contenteditable="true"></div>
+                        <textarea id="materiKonsep" style="display:none;"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MATERI PRAKTIK - RICH EDITOR -->
+            <div class="card">
+                <div class="card-header"><i class="fas fa-hands-helping"></i><span>🔧 MATERI PRAKTIK & CONTOH</span></div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <div class="rich-editor-toolbar">
+                            <button type="button" onclick="formatEditor('materiPraktekEditor','bold')"><b>B</b></button>
+                            <button type="button" onclick="formatEditor('materiPraktekEditor','italic')"><i>I</i></button>
+                            <button type="button" onclick="formatEditor('materiPraktekEditor','underline')"><u>U</u></button>
+                            <button type="button" onclick="formatEditor('materiPraktekEditor','insertUnorderedList')"><i class="fas fa-list-ul"></i></button>
+                            <button type="button" onclick="formatEditor('materiPraktekEditor','insertOrderedList')"><i class="fas fa-list-ol"></i></button>
+                        </div>
+                        <div id="materiPraktekEditor" class="rich-editor" contenteditable="true"></div>
+                        <textarea id="materiPraktek" style="display:none;"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PEMAHAMAN BERMAKNA - RICH EDITOR -->
+            <div class="card">
+                <div class="card-header"><i class="fas fa-heart"></i><span>💡 PEMAHAMAN BERMAKNA</span></div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <div class="rich-editor-toolbar">
+                            <button type="button" onclick="formatEditor('pemahamanEditor','bold')"><b>B</b></button>
+                            <button type="button" onclick="formatEditor('pemahamanEditor','italic')"><i>I</i></button>
+                            <button type="button" onclick="formatEditor('pemahamanEditor','underline')"><u>U</u></button>
+                        </div>
+                        <div id="pemahamanEditor" class="rich-editor" contenteditable="true"></div>
+                        <textarea id="pemahaman" style="display:none;"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PERTANYAAN PEMANTIK - RICH EDITOR -->
+            <div class="card">
+                <div class="card-header"><i class="fas fa-question-circle"></i><span>❓ PERTANYAAN PEMANTIK</span></div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <div class="rich-editor-toolbar">
+                            <button type="button" onclick="formatEditor('pemantikEditor','bold')"><b>B</b></button>
+                            <button type="button" onclick="formatEditor('pemantikEditor','italic')"><i>I</i></button>
+                            <button type="button" onclick="formatEditor('pemantikEditor','underline')"><u>U</u></button>
+                            <button type="button" onclick="formatEditor('pemantikEditor','insertOrderedList')"><i class="fas fa-list-ol"></i></button>
+                        </div>
+                        <div id="pemantikEditor" class="rich-editor" contenteditable="true"></div>
+                        <textarea id="pemantik" style="display:none;"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KEGIATAN - RICH EDITOR -->
+            <div class="card">
+                <div class="card-header"><i class="fas fa-calendar-week"></i><span>📅 KEGIATAN PEMBELAJARAN</span></div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Pendahuluan</label>
+                        <div class="rich-editor-toolbar">
+                            <button type="button" onclick="formatEditor('pendahuluanEditor','bold')"><b>B</b></button>
+                            <button type="button" onclick="formatEditor('pendahuluanEditor','italic')"><i>I</i></button>
+                        </div>
+                        <div id="pendahuluanEditor" class="rich-editor" contenteditable="true"></div>
+                        <textarea id="pendahuluan" style="display:none;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Kegiatan Inti</label>
+                        <div class="rich-editor-toolbar">
+                            <button type="button" onclick="formatEditor('intiEditor','bold')"><b>B</b></button>
+                            <button type="button" onclick="formatEditor('intiEditor','italic')"><i>I</i></button>
+                            <button type="button" onclick="formatEditor('intiEditor','insertOrderedList')"><i class="fas fa-list-ol"></i></button>
+                        </div>
+                        <div id="intiEditor" class="rich-editor" contenteditable="true"></div>
+                        <textarea id="inti" style="display:none;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Penutup</label>
+                        <div class="rich-editor-toolbar">
+                            <button type="button" onclick="formatEditor('penutupEditor','bold')"><b>B</b></button>
+                            <button type="button" onclick="formatEditor('penutupEditor','italic')"><i>I</i></button>
+                        </div>
+                        <div id="penutupEditor" class="rich-editor" contenteditable="true"></div>
+                        <textarea id="penutup" style="display:none;"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ASESMEN - RICH EDITOR -->
+            <div class="card">
+                <div class="card-header"><i class="fas fa-clipboard-list"></i><span>📝 ASESMEN & INSTRUMEN</span></div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Asesmen Diagnostik</label>
+                        <div class="rich-editor-toolbar">
+                            <button type="button" onclick="formatEditor('diagnostikEditor','bold')"><b>B</b></button>
+                            <button type="button" onclick="formatEditor('diagnostikEditor','italic')"><i>I</i></button>
+                        </div>
+                        <div id="diagnostikEditor" class="rich-editor" contenteditable="true"></div>
+                        <textarea id="diagnostik" style="display:none;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Asesmen Formatif</label>
+                        <div class="rich-editor-toolbar">
+                            <button type="button" onclick="formatEditor('formatifEditor','bold')"><b>B</b></button>
+                            <button type="button" onclick="formatEditor('formatifEditor','italic')"><i>I</i></button>
+                        </div>
+                        <div id="formatifEditor" class="rich-editor" contenteditable="true"></div>
+                        <textarea id="formatif" style="display:none;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Asesmen Sumatif</label>
+                        <div class="rich-editor-toolbar">
+                            <button type="button" onclick="formatEditor('sumatifEditor','bold')"><b>B</b></button>
+                            <button type="button" onclick="formatEditor('sumatifEditor','italic')"><i>I</i></button>
+                        </div>
+                        <div id="sumatifEditor" class="rich-editor" contenteditable="true"></div>
+                        <textarea id="sumatif" style="display:none;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Soal Uraian</label>
+                        <div class="rich-editor-toolbar">
+                            <button type="button" onclick="formatEditor('soalEditor','bold')"><b>B</b></button>
+                            <button type="button" onclick="formatEditor('soalEditor','italic')"><i>I</i></button>
+                            <button type="button" onclick="formatEditor('soalEditor','insertOrderedList')"><i class="fas fa-list-ol"></i></button>
+                        </div>
+                        <div id="soalEditor" class="rich-editor" contenteditable="true"></div>
+                        <textarea id="soal" style="display:none;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Kunci Jawaban & Rubrik</label>
+                        <div class="rich-editor-toolbar">
+                            <button type="button" onclick="formatEditor('kunciEditor','bold')"><b>B</b></button>
+                            <button type="button" onclick="formatEditor('kunciEditor','italic')"><i>I</i></button>
+                        </div>
+                        <div id="kunciEditor" class="rich-editor" contenteditable="true"></div>
+                        <textarea id="kunci" style="display:none;"></textarea>
+                    </div>
+                    <div class="form-row-2">
+                        <div class="form-group"><label>Remedial</label><input type="text" id="remedial" class="form-control" value="Pembelajaran ulang dengan pendekatan sederhana"></div>
+                        <div class="form-group"><label>Pengayaan</label><input type="text" id="pengayaan" class="form-control" value="Soal tantangan, tutor sebaya"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel Kanan: Preview -->
+        <div class="panel-right">
+            <div class="preview-container">
+                <div class="preview-header">
+                    <i class="fas fa-eye"></i>
+                    <span>📄 PRATINJAU RPP (Tabel Rapi Seperti Word)</span>
+                    <button class="btn-icon-small refresh-btn" id="refreshPreview"><i class="fas fa-sync-alt"></i></button>
+                </div>
+                <div class="preview-content" id="previewContent">
+                    <div class="rpp-preview" id="rppPreview"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
